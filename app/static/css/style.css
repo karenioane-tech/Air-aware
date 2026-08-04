@@ -1,0 +1,352 @@
+/* ============================================================
+   AirAware — clinical / vitals-monitor visual system
+   ============================================================ */
+
+:root {
+    /* Color */
+    --bg: #F5FAF9;
+    --surface: #FFFFFF;
+    --ink: #142B2E;
+    --ink-soft: #4B6461;
+    --accent: #0D7A6E;
+    --accent-soft: #E4F2EF;
+    --line: #D8E6E3;
+
+    --flag-low: #2F8F5B;
+    --flag-low-bg: #EAF6EE;
+    --flag-moderate: #B9791F;
+    --flag-moderate-bg: #FBF1DE;
+    --flag-high: #C1443C;
+    --flag-high-bg: #FBEAE8;
+
+    /* Type */
+    --font-display: "IBM Plex Sans", "Segoe UI", sans-serif;
+    --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+    --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+
+    --radius: 4px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.55;
+}
+
+a { color: var(--accent); }
+
+main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+}
+
+h1 { font-size: 1.6rem; margin: 0 0 0.35rem; }
+h2 { font-size: 1.1rem; margin: 1.75rem 0 0.75rem; }
+h3 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    margin: 1.25rem 0 0.5rem;
+}
+
+/* ---------- Header / chart-tab nav ---------- */
+
+.site-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+}
+
+.site-header-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0.9rem 1.25rem 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--ink);
+    text-decoration: none;
+    padding-bottom: 0.75rem;
+}
+
+.brand-mark {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.site-nav {
+    display: flex;
+    gap: 1.1rem;
+    flex-wrap: wrap;
+}
+
+.site-nav a {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 0 0.1rem 0.75rem;
+    border-bottom: 2px solid transparent;
+}
+
+.site-nav a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--line);
+}
+
+.site-nav a.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: 0.4rem;
+    margin-bottom: 0.75rem;
+    color: var(--ink);
+    cursor: pointer;
+}
+
+.nav-toggle svg { width: 20px; height: 20px; }
+
+/* Pulse-line divider — the one signature motif, used sparingly */
+.pulse-divider {
+    display: block;
+    width: 100%;
+    height: 20px;
+}
+
+.pulse-divider path {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .pulse-divider path {
+        stroke-dasharray: 340;
+        stroke-dashoffset: 340;
+        animation: draw-pulse 1.8s ease-out forwards;
+    }
+}
+
+@keyframes draw-pulse {
+    to { stroke-dashoffset: 0; }
+}
+
+/* ---------- Hero (index) ---------- */
+
+.hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin: 0 0 0.6rem;
+}
+
+.hero p {
+    color: var(--ink-soft);
+    max-width: 46ch;
+}
+
+/* ---------- Cards ("chart panels") ---------- */
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.25rem;
+    margin: 1rem 0;
+}
+
+.card-flag-low    { border-left: 3px solid var(--flag-low); }
+.card-flag-moderate { border-left: 3px solid var(--flag-moderate); }
+.card-flag-high    { border-left: 3px solid var(--flag-high); }
+
+/* ---------- Flags / badges (lab-report style) ---------- */
+
+.flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+}
+
+.flag::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.flag-low      { color: var(--flag-low);      background: var(--flag-low-bg); }
+.flag-moderate { color: var(--flag-moderate); background: var(--flag-moderate-bg); }
+.flag-high     { color: var(--flag-high);     background: var(--flag-high-bg); }
+
+/* ---------- Flash messages ---------- */
+
+.flashes { list-style: none; padding: 0; margin: 1rem 0; }
+
+.flashes li {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    padding: 0.55rem 0.8rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    margin-bottom: 0.5rem;
+}
+
+.flash-success { border-color: var(--flag-low); background: var(--flag-low-bg); color: var(--flag-low); }
+.flash-danger  { border-color: var(--flag-high); background: var(--flag-high-bg); color: var(--flag-high); }
+.flash-info    { border-color: var(--line); background: var(--accent-soft); color: var(--accent); }
+
+/* ---------- Forms (clinical intake style) ---------- */
+
+form { margin: 0.5rem 0; }
+
+form p { margin: 0 0 0.9rem; }
+
+label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    margin-bottom: 0.3rem;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select,
+textarea {
+    width: 100%;
+    max-width: 420px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.55rem 0.7rem;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+    border-color: var(--accent);
+}
+
+input[type="submit"], button {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.6rem 1.1rem;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover, button:hover { background: var(--accent); }
+
+/* ---------- Lists / vitals rows ---------- */
+
+ul.plain { list-style: none; padding: 0; margin: 0.75rem 0; }
+
+ul.plain li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.92rem;
+}
+
+ul.plain li:last-child { border-bottom: none; }
+
+.readout {
+    font-family: var(--font-mono);
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 520px) {
+    .site-header-inner { flex-direction: row; flex-wrap: nowrap; align-items: center; }
+
+    .nav-toggle { display: block; }
+
+    .site-nav {
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        width: 100%;
+        order: 3;
+    }
+
+    .site-nav.is-open { display: flex; }
+
+    .site-nav a {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .site-nav a.active { border-bottom-color: var(--line); }
+
+    main { padding: 1.5rem 1rem 3rem; }
+}

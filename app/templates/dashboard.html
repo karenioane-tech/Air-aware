@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Welcome, {{ user.full_name }}</h1>
+
+<div class="card">
+    <h3>Chart summary</h3>
+    <ul class="plain">
+        <li><span>Condition</span> <span class="readout">{{ user.disease or "not set" }}</span></li>
+        <li><span>Medication</span> <span class="readout">{{ user.medication or "not set" }}</span></li>
+        <li><span>Known triggers</span> <span class="readout">{{ user.trigger or "not set" }}</span></li>
+    </ul>
+</div>
+
+<p><a href="{{ url_for('profile.profile_page') }}">Update health profile</a> ·
+   <a href="{{ url_for('travel.travel_page') }}">Check a destination</a> ·
+   <a href="{{ url_for('ai.assistant') }}">Talk to your assistant</a></p>
+{% endblock %}

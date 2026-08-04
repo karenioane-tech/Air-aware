@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Health profile</h1>
+<p class="readout">This drives every risk check and recommendation you get.</p>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <p>{{ form.disease.label }}{{ form.disease() }}</p>
+    <p>{{ form.medication.label }}{{ form.medication() }}</p>
+    <p>{{ form.trigger.label }}{{ form.trigger() }}</p>
+
+    {{ form.submit() }}
+</form>
+{% endblock %}

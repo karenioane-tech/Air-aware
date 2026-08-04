@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Travel / occasion risk check</h1>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <p>{{ form.destination.label }}{{ form.destination() }}</p>
+    <p>{{ form.air_quality_level.label }}{{ form.air_quality_level() }}</p>
+    <p>{{ form.pollen_level.label }}{{ form.pollen_level() }}</p>
+
+    {{ form.submit() }}
+</form>
+
+{% if result %}
+    <div class="card card-flag-{{ result.risk_level|lower }}">
+        <span class="flag flag-{{ result.risk_level|lower }}">{{ result.risk_level }} risk</span>
+        <h3>{{ result.destination }}</h3>
+        <ul class="plain">
+            {% for reason in result.reasons %}<li>{{ reason }}</li>{% endfor %}
+        </ul>
+        <h3>Recommended actions</h3>
+        <ul class="plain">
+            {% for tip in result.tips %}<li>{{ tip }}</li>{% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+{% if history %}
+    <h2>Recent checks</h2>
+    <div class="card">
+        <ul class="plain">
+            {% for h in history %}
+                <li>
+                    <span>{{ h.destination }}</span>
+                    <span class="flag flag-{{ h.risk_level|lower }}">{{ h.risk_level }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+{% endblock %}

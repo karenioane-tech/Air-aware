@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Your health assistant</h1>
+
+<div class="card">
+    {% if condition_tip %}
+        <p><strong>For {{ current_user.disease }}:</strong> {{ condition_tip }}</p>
+    {% else %}
+        <p>Add a condition in your <a href="{{ url_for('profile.profile_page') }}">health profile</a> for tailored advice.</p>
+    {% endif %}
+
+    {% if trend %}
+        <p class="readout">{{ trend }}</p>
+    {% else %}
+        <p class="readout">No recent check-ins yet — log how you're feeling below to start tracking trends.</p>
+    {% endif %}
+
+    {% if last_check %}
+        <p class="readout">Last check: {{ last_check.destination }} —
+            <span class="flag flag-{{ last_check.risk_level|lower }}">{{ last_check.risk_level }}</span>
+        </p>
+    {% endif %}
+</div>
+
+<h2>Log how you're feeling</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <p>{{ form.severity.label }}{{ form.severity() }}</p>
+    <p>{{ form.symptoms.label }}{{ form.symptoms() }}</p>
+    <p>{{ form.notes.label }}{{ form.notes() }}</p>
+
+    {{ form.submit() }}
+</form>
+
+{% if logs %}
+    <h2>Recent history</h2>
+    <div class="card">
+        <ul class="plain">
+            {% for log in logs %}
+                <li>
+                    <span>{{ log.logged_at.strftime("%Y-%m-%d %H:%M") }}{% if log.symptoms %} — {{ log.symptoms }}{% endif %}</span>
+                    <span class="readout">{{ log.severity }}/5</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+{% endblock %}
