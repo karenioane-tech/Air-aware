@@ -1,31 +1,13 @@
-# Python
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-
-# Virtual environments
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+.env
 .venv/
 venv/
-ENV/
-env/
-
-# Environment files
-.env
-.env.*
-
-# Database files
-instance/*.db
-instance/*.sqlite
-instance/*.sqlite3
-
-# Logs
-*.log
-
-# OS files
+instance/
 .DS_Store
-Thumbs.db
-
-# IDE
 .vscode/
-.idea/
+.pytest_cache/
